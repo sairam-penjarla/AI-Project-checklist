@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Submission</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='markdown_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert("Copied to clipboard!");
+            }, function(err) {
+                alert("Failed to copy: ", err);
+            });
+        }
+
+        function renderMarkdown() {
+            const markdownElements = document.querySelectorAll('.markdown');
+            markdownElements.forEach((element) => {
+                const rawContent = element.dataset.rawContent;
+                element.innerHTML = marked.parse(rawContent);
+            });
+        }
+    </script>
+</head>
+<body onload="renderMarkdown()">
+    <div style="display: flex;">
+        <div style="width: 50%; padding: 10px;">
+            <form method="POST" enctype="multipart/form-data">
+                <h3>Project Details</h3>
+                <textarea name="project_details" rows="4" cols="50" placeholder="Enter project details"></textarea><br><br>
+
+                <h3>YouTube Link</h3>
+                <input type="url" name="youtube_link" placeholder="Enter YouTube link"><br><br>
+
+                <h3>GitHub Link</h3>
+                <input type="url" name="github_link" placeholder="Enter GitHub link"><br><br>
+
+                <h3>Blog Link</h3>
+                <input type="url" name="blog_link" placeholder="Enter Blog link"><br><br>
+
+                <h3>Screenshots</h3>
+                <input type="file" name="screenshots" multiple><br><br>
+                <textarea name="screenshot_desc" rows="2" cols="50" placeholder="Describe each screenshot"></textarea><br><br>
+
+                <h3>Architecture Diagram</h3>
+                <input type="file" name="architecture_image"><br><br>
+                <textarea name="architecture_desc" rows="4" cols="50" placeholder="Describe the architecture diagram"></textarea><br><br>
+
+                <button type="submit">Generate</button>
+            </form>
+        </div>
+        <div style="width: 50%; padding: 10px;">
+            {% if result %}
+                <h3>Generated Outputs</h3>
+                <div class="markdown-container">
+                    <div class="header">
+                        <div class="markdown-heading">YouTube Video Script</div>
+                        <button onclick="copyToClipboard('{{ result['youtube_script_prompt'] }}')">Copy</button>
+                    </div>
+                    <div class="body markdown" data-raw-content="{{ result['youtube_script_prompt'] }}"></div>
+                </div>
+                <div class="markdown-container">
+                    <div class="header">
+                        <div class="markdown-heading">YouTube Video Description</div>
+                        <button onclick="copyToClipboard('{{ result['youtube_description_prompt'] }}')">Copy</button>
+                    </div>
+                    <div class="body markdown" data-raw-content="{{ result['youtube_description_prompt'] }}"></div>
+                </div>
+                <div class="markdown-container">
+                    <div class="header">
+                        <div class="markdown-heading">README File</div>
+                        <button onclick="copyToClipboard('{{ result['readme_file_prompt'] }}')">Copy</button>
+                    </div>
+                    <div class="body markdown" data-raw-content="{{ result['readme_file_prompt'] }}"></div>
+                </div>
+                <div class="markdown-container">
+                    <div class="header">
+                        <div class="markdown-heading">Overview</div>
+                        <button onclick="copyToClipboard('{{ result['overview_prompt'] }}')">Copy</button>
+                    </div>
+                    <div class="body markdown" data-raw-content="{{ result['overview_prompt'] }}"></div>
+                </div>
+                <div class="markdown-container">
+                    <div class="header">
+                        <div class="markdown-heading">Demo</div>
+                        <button onclick="copyToClipboard('{{ result['demo_prompt'] }}')">Copy</button>
+                    </div>
+                    <div class="body markdown" data-raw-content="{{ result['demo_prompt'] }}"></div>
+                </div>
+                <div class="markdown-container">
+                    <div class="header">
+                        <div class="markdown-heading">Architecture Details</div>
+                        <button onclick="copyToClipboard('{{ result['architecture_prompt'] }}')">Copy</button>
+                    </div>
+                    <div class="body markdown" data-raw-content="{{ result['architecture_prompt'] }}"></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
