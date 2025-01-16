@@ -9,9 +9,9 @@ def index():
     result = None
     if request.method == 'POST':
         project_details = request.form.get('project_details', '')
-        youtube_link = request.form.get('youtube_link', '')
-        github_link = request.form.get('github_link', '')
-        blog_link = request.form.get('blog_link', '')
+        youtube_link = request.form.get('youtube_link', '<PASTE LINK HERE>')
+        github_link = request.form.get('github_link', '<PASTE LINK HERE>')
+        blog_link = request.form.get('blog_link', '<PASTE LINK HERE>')
 
         screenshot_details = process_file_details(
             request.files.getlist('screenshots'),

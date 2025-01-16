@@ -4,10 +4,7 @@ from prompt_templates import (
     readme_file_prompt,
     overview_prompt,
     demo_prompt,
-    architecture_prompt,
-    installation_prompt,
-    future_works_prompt,
-    conclusion_prompt
+    architecture_prompt
 )
 
 def process_data(project_details, youtube_link, github_link, blog_link, screenshot_details, architecture_details):
@@ -27,13 +24,13 @@ def get_youtube_script_prompt(project_details):
     return youtube_script_prompt + project_details
 
 def get_youtube_description_prompt(project_details, github_link, blog_link):
-    return youtube_description_prompt + project_details + github_link + blog_link
+    return youtube_description_prompt + project_details + f"\n\n- github link: {github_link}" + f"\n\n  blog article link: {blog_link}"
 
 def get_readme_file_prompt(project_details, github_link, blog_link):
-    return readme_file_prompt + project_details + github_link + blog_link
+    return readme_file_prompt + project_details + f"\n\n- github link: {github_link}" + f"\n\n- blog article link: {blog_link}"
 
 def get_overview_prompt(project_details, youtube_link, github_link, blog_link):
-    return overview_prompt + project_details + youtube_link + github_link + blog_link
+    return overview_prompt + project_details + youtube_link + f"\n\n- github link: {github_link}" + f"\n\n- blog article link: {blog_link}"
 
 def get_demo_prompt(screenshot_details):
     return demo_prompt + screenshot_details
