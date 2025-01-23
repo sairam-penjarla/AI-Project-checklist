@@ -1,104 +1,319 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Project Submission</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='markdown_styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function() {
-                alert("Copied to clipboard!");
-            }).catch(function(err) {
-                alert("Failed to copy: " + err);
-            });
-        }
-    
-        function renderMarkdown() {
-            const markdownElements = document.querySelectorAll('.markdown');
-            markdownElements.forEach((element) => {
-                const rawContent = element.dataset.rawContent;
-                element.innerHTML = marked.parse(rawContent);
-            });
-        }
-    </script>
-    
-</head>
-<body onload="renderMarkdown()">
-    <div style="display: flex;">
-        <div style="width: 50%; padding: 10px;">
-            <form method="POST" enctype="multipart/form-data">
-                <h3>Project Details</h3>
-                <textarea name="project_details" rows="4" cols="50" placeholder="Enter project details"></textarea><br><br>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Project Submission</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+        <script>
+            // Enable submit button only if all required fields are filled
+            function enableSubmitButton() {
+                const requiredFields = document.querySelectorAll(".required");
+                const submitButton = document.getElementById("submit-button");
+                let allFilled = true;
+                requiredFields.forEach((field) => {
+                    if (!field.value.trim()) {
+                        allFilled = false;
+                    }
+                });
+                submitButton.disabled = !allFilled;
+            }
 
-                <h3>YouTube Link</h3>
-                <input type="url" name="youtube_link" placeholder="Enter YouTube link"><br><br>
+            async function submitProject(event) {
+                event.preventDefault();
 
-                <h3>GitHub Link</h3>
-                <input type="url" name="github_link" placeholder="Enter GitHub link"><br><br>
+                const formElement = document.getElementById("project-form");
+                const formData = new FormData(formElement);
 
-                <h3>Blog Link</h3>
-                <input type="url" name="blog_link" placeholder="Enter Blog link"><br><br>
+                try {
+                    // Add screenshot file names and descriptions to formData
+                    const screenshotCards = document.querySelectorAll("#screenshots-container .card");
+                    screenshotCards.forEach((card, index) => {
+                        const fileInput = card.querySelector('input[type="file"]');
+                        const descriptionTextarea = card.querySelector('textarea[name="screenshot_desc"]');
 
+                        if (fileInput && fileInput.files[0]) {
+                            formData.append(`screenshot_file_${index + 1}`, fileInput.files[0].name); // File name
+                        }
+                        if (descriptionTextarea) {
+                            formData.append(`screenshot_desc_${index + 1}`, descriptionTextarea.value); // Description
+                        }
+                    });
+
+                    // Add architecture file names and descriptions to formData
+                    const architectureCards = document.querySelectorAll("#architecture-container .card");
+                    architectureCards.forEach((card, index) => {
+                        const fileInput = card.querySelector('input[type="file"]');
+                        const descriptionTextarea = card.querySelector('textarea[name="architecture_desc"]');
+
+                        if (fileInput && fileInput.files[0]) {
+                            formData.append(`architecture_file_${index + 1}`, fileInput.files[0].name); // File name
+                        }
+                        if (descriptionTextarea) {
+                            formData.append(`architecture_desc_${index + 1}`, descriptionTextarea.value); // Description
+                        }
+                    });
+
+                    // Submit the form data via fetch
+                    const response = await fetch("/submit-project", {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Populate generated output fields
+                        document.getElementById("youtube-script-output").textContent = data.result.youtube_script_prompt || "";
+                        document.getElementById("youtube-description-output").textContent = data.result.youtube_description_prompt || "";
+                        document.getElementById("readme-output").textContent = data.result.readme_file_prompt || "";
+                        document.getElementById("overview-output").textContent = data.result.overview_prompt || "";
+                        document.getElementById("demo-output").textContent = data.result.demo_prompt || "";
+                        document.getElementById("architecture-output").textContent = data.result.architecture_prompt || "";
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while submitting the project.");
+                }
+            }
+
+
+            // Add new screenshot uploader section
+            function addScreenshotUploader() {
+                const container = document.getElementById("screenshots-container");
+                const uploader = document.createElement("div");
+                uploader.classList.add("card");
+                uploader.innerHTML = `
+                    <div class="card-left">
+                        <div class="image-preview" style="display: none;">
+                            <img src="" alt="Uploaded Screenshot" onclick="showImagePreview(this)" />
+                        </div>
+                        <div class="upload-button">
+                            <input type="file" name="screenshots" accept="image/*" onchange="handleFileUpload_screenshots(event)">
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <textarea name="screenshot_desc" rows="3" placeholder="Describe the screenshot"></textarea>
+                    </div>
+                `;
+                container.appendChild(uploader);
+            }
+
+            // Add new architecture diagram uploader section
+            function addArchitectureUploader() {
+                const container = document.getElementById("architecture-container");
+                const uploader = document.createElement("div");
+                uploader.classList.add("card");
+                uploader.innerHTML = `
+                    <div class="card-left">
+                        <div class="image-preview" style="display: none;">
+                            <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
+                        </div>
+                        <div class="upload-button">
+                            <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUpload_architecture(event)">
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
+                    </div>
+                `;
+                container.appendChild(uploader);
+            }
+
+            // Handle file upload for multiple screenshots/architecture and generate thumbnails
+            function handleFileUpload_screenshots(event) {
+                const input = event.target;
+                const fileInput = input.closest(".card").querySelector('input[type="file"]');
+                const previewContainer = input.closest(".card").querySelector(".image-preview");
+                const descriptionInput = input.closest(".card").querySelector("textarea");
+                const formData = new FormData();
+                formData.append("screenshot", fileInput.files[0]);
+
+                // Send the screenshot to the server to generate thumbnail
+                fetch("/generate_thumbnail", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    const imageUrl = URL.createObjectURL(blob);
+                    previewContainer.querySelector("img").src = imageUrl;
+                    previewContainer.style.display = "block";
+                })
+                .catch((error) => alert("Error generating thumbnail: " + error));
+            }
+
+
+            // Handle file upload for multiple screenshots/architecture and generate thumbnails
+            function handleFileUpload_architecture(event) {
+                const input = event.target;
+                const fileInput = input.closest(".card").querySelector('input[type="file"]');
+                const previewContainer = input.closest(".card").querySelector(".image-preview");
+                const descriptionInput = input.closest(".card").querySelector("textarea");
+                const formData = new FormData();
+                formData.append("screenshot", fileInput.files[0]);
+
+                // Send the screenshot to the server to generate thumbnail
+                fetch("/generate_thumbnail_arch", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    const imageUrl = URL.createObjectURL(blob);
+                    previewContainer.querySelector("img").src = imageUrl;
+                    previewContainer.style.display = "block";
+                })
+                .catch((error) => alert("Error generating thumbnail: " + error));
+            }
+            function showImagePreview(imgElement) {
+                const modal = document.getElementById("image-modal");
+                const modalImage = document.getElementById("modal-image");
+
+                // Set the modal image source to the clicked image
+                modalImage.src = imgElement.src;
+
+                // Show the modal
+                modal.style.display = "block";
+            }
+
+            function closeImagePreview(event) {
+                const modal = document.getElementById("image-modal");
+
+                // Close the modal only if the clicked area is outside the image or the close button
+                if (event.target === modal || event.target.classList.contains("image-close-btn")) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    </head>
+    <body oninput="enableSubmitButton()">
+        <div class="left-container">
+            <!-- Section 1: Project Details -->
+            <div class="form-section">
+                <div class="wrapper">
+                    <div class="btn close-btn"></div>
+                    <div class="btn min-btn"></div>
+                    <div class="btn max-btn"></div>
+                  </div>
+                <h2>Project Details</h2>
+                <form id="project-form" method="POST" enctype="multipart/form-data">
+                    <div class="proj-desc-section">
+                        <div class="input-group">
+                            <label for="project-details">Description</label>
+                            <textarea id="project-details" name="project_details" class="required" rows="4" placeholder="Enter project description" style=""></textarea>
+                        </div>
+                    </div>
+                    <div class="proj-links-section">
+                        <div class="input-group">
+                            <label for="youtube-link">YouTube Link</label>
+                            <input type="url" id="youtube-link" name="youtube_link" placeholder="Enter YouTube link" />
+                        </div>
+                        <div class="input-group">
+                            <label for="github-link">GitHub Link</label>
+                            <input type="url" id="github-link" name="github_link" placeholder="Enter GitHub link" />
+                        </div>
+                        <div class="input-group">
+                            <label for="blog-link">Blog Link</label>
+                            <input type="url" id="blog-link" name="blog_link" placeholder="Enter Blog link" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Section 2: File Uploads -->
+            <div class="form-section">
+                <h2>File Uploads</h2>
+
+                <!-- Screenshots Section -->
                 <h3>Screenshots</h3>
-                <input type="file" name="screenshots" multiple><br><br>
-                <textarea name="screenshot_desc" rows="2" cols="50" placeholder="Describe each screenshot"></textarea><br><br>
+                <div class="screenshots-container" id="screenshots-container">
+                    <!-- Screenshot Cards -->
+                    <div class="card">
+                        <div class="card-left">
+                            <div class="image-preview" style="display: none;">
+                                <img src="" alt="Uploaded Screenshot" onclick="showImagePreview(this)" />
+                            </div>
+                            <div class="upload-button">
+                                <input type="file" name="screenshots" accept="image/*" onchange="handleFileUpload_screenshots(event)">
+                            </div>
+                        </div>
+                        <div class="card-right">
+                            <textarea name="screenshot_desc" rows="3" placeholder="Describe the screenshot"></textarea>
+                        </div>
+                    </div>
+                    <!-- Add more screenshots by clicking the plus icon -->
+                    <button class="plus-icon" onclick="addScreenshotUploader()">+</button>
+                </div>
 
+                <!-- Architecture Diagram Section -->
                 <h3>Architecture Diagram</h3>
-                <input type="file" name="architecture_image"><br><br>
-                <textarea name="architecture_desc" rows="4" cols="50" placeholder="Describe the architecture diagram"></textarea><br><br>
+                <div class="architecture-container" id="architecture-container">
+                    <!-- Architecture Cards -->
+                    <div class="card">
+                        <div class="card-left">
+                            <div class="image-preview" style="display: none;">
+                                <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
+                            </div>
+                            <div class="upload-button">
+                                <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUpload_architecture(event)">
+                            </div>
+                        </div>
+                        <div class="card-right">
+                            <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
+                        </div>
+                    </div>
 
-                <button type="submit">Generate</button>
-            </form>
+                    <!-- Add more architecture diagrams by clicking the plus icon -->
+                    <button class="plus-icon" onclick="addArchitectureUploader()">+</button>
+                </div>
+            </div>
+
+            <!-- Modal for Full-Screen Preview -->
+            <div id="image-modal" class="image-modal" onclick="closeImagePreview(event)">
+                <span class="image-close-btn" onclick="closeImagePreview(event)">&times;</span>
+                <img class="modal-content" id="modal-image" />
+            </div>
+            <!-- Submit Button -->
+            <div class="button-container">
+                <button id="submit-button" onclick="submitProject(event)" disabled="">Submit Project</button>
+            </div>
         </div>
-        <div style="width: 50%; padding: 10px;">
-            {% if result %}
-                <h3>Generated Outputs</h3>
-                <div class="markdown-container">
-                    <div class="header">
-                        <div class="markdown-heading">YouTube Video Script</div>
-                        <button onclick="copyToClipboard({{ result['youtube_script_prompt']|tojson }});">Copy</button>
-                    </div>
-                    <div class="body markdown" data-raw-content="{{ result['youtube_script_prompt'] }}"></div>
+        <div class="right-container">
+            <!-- Section 3: Generated Outputs -->
+            <div class="form-section">
+                <h2>Generated Outputs</h2>
+                <div class="output-group">
+                    <h3>YouTube Video Script</h3>
+                    <div id="youtube-script-output" class="output-box"></div>
                 </div>
-                <div class="markdown-container">
-                    <div class="header">
-                        <div class="markdown-heading">YouTube Video Description</div>
-                        <button onclick="copyToClipboard({{ result['youtube_description_prompt']|tojson }});">Copy</button>
-                    </div>
-                    <div class="body markdown" data-raw-content="{{ result['youtube_description_prompt'] }}"></div>
+                <div class="output-group">
+                    <h3>YouTube Video Description</h3>
+                    <div id="youtube-description-output" class="output-box"></div>
                 </div>
-                <div class="markdown-container">
-                    <div class="header">
-                        <div class="markdown-heading">README File</div>
-                        <button onclick="copyToClipboard({{ result['readme_file_prompt']|tojson }});">Copy</button>
-                    </div>
-                    <div class="body markdown" data-raw-content="{{ result['readme_file_prompt'] }}"></div>
+                <div class="output-group">
+                    <h3>README File</h3>
+                    <div id="readme-output" class="output-box"></div>
                 </div>
-                <div class="markdown-container">
-                    <div class="header">
-                        <div class="markdown-heading">Overview</div>
-                        <button onclick="copyToClipboard({{ result['overview_prompt']|tojson }});">Copy</button>
-                    </div>
-                    <div class="body markdown" data-raw-content="{{ result['overview_prompt'] }}"></div>
+                <div class="output-group">
+                    <h3>Overview</h3>
+                    <div id="overview-output" class="output-box"></div>
                 </div>
-                <div class="markdown-container">
-                    <div class="header">
-                        <div class="markdown-heading">Demo</div>
-                        <button onclick="copyToClipboard({{ result['demo_prompt']|tojson }});">Copy</button>
-                    </div>
-                    <div class="body markdown" data-raw-content="{{ result['demo_prompt'] }}"></div>
+                <div class="output-group">
+                    <h3>Demo</h3>
+                    <div id="demo-output" class="output-box"></div>
                 </div>
-                <div class="markdown-container">
-                    <div class="header">
-                        <div class="markdown-heading">Architecture Details</div>
-                        <button onclick="copyToClipboard({{ result['architecture_prompt']|tojson }});">Copy</button>
-                    </div>
-                    <div class="body markdown" data-raw-content="{{ result['architecture_prompt'] }}"></div>
+                <div class="output-group">
+                    <h3>Architecture Details</h3>
+                    <div id="architecture-output" class="output-box"></div>
                 </div>
-            {% endif %}
+            </div>
         </div>
-        
-    </div>
-</body>
+
+        <div>
+            <div style="display: none; position: fixed; top: 30px; width: auto; max-width: 100%; text-align: center; left: 50%; transform: translateX(-50%); z-index: 99999999"><div style="display: inline-block; font-size: 14px; font-weight: bold; border: 1px solid rgb(240, 195, 109); background-color: rgb(249, 237, 190); padding: 0px 10px; border-radius: 2px; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px"></div></div>
+        </div>
+    </body>
 </html>

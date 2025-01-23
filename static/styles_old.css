@@ -1,0 +1,36 @@
+body{
+    font-family: "Inter", sans-serif;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #374151;
+    color: white;
+    border-radius: 10px 10px 0px 0px;
+    align-items: center;
+    padding: 8px 16px;
+    margin-top: 80px;
+}
+
+.markdown-heading {
+    height: 20px;
+}
+.header button {
+    height: 16px;
+    display: inline-block;
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #374151;
+    color: #eeeeee;
+    border: 1px solid #919191;
+    border-radius: 7px;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+.body {
+    border: 1px solid #374151;
+    padding: 19px;
+    border-radius: 0px 0px 10px 10px;
+}

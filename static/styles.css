@@ -1,36 +1,381 @@
-body{
-    font-family: "Inter", sans-serif;
-}
-.header {
+/* General Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #c4d7f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.5;
     display: flex;
-    justify-content: space-between;
-    background-color: #374151;
-    color: white;
-    border-radius: 10px 10px 0px 0px;
-    align-items: center;
-    padding: 8px 16px;
-    margin-top: 80px;
+    width: 100%;
 }
 
-.markdown-heading {
-    height: 20px;
+.left-container {
+    max-width: 900px;
+    margin: 40px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    gap: 24px;
+    flex-direction: column;
+    width: 50%;
+    justify-content: flex-start;
+    display: inline-flex;
+    height: fit-content;
 }
-.header button {
-    height: 16px;
-    display: inline-block;
-    font-size: 12px;
-    align-items: center;
-    justify-content: center;
+.right-container {
+    max-width: 900px;
+    margin: 40px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    gap: 24px;
+    flex-direction: column;
+    width: 50%;
+    justify-content: flex-start;
     display: flex;
-    background-color: #374151;
-    color: #eeeeee;
-    border: 1px solid #919191;
-    border-radius: 7px;
-    padding: 10px 10px;
-    cursor: pointer;
 }
-.body {
-    border: 1px solid #374151;
-    padding: 19px;
-    border-radius: 0px 0px 10px 10px;
+
+h2 {
+    /* font-size: 1.8rem; */
+    /* font-weight: 600; */
+    /* margin-bottom: 20px; */
+}
+
+/* Form Section */
+.form-section {
+    /* margin-top: 40px; */
+}
+.form-section form{
+    display: flex;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    /* width: 100%; */
+    /* height: 100%; */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    background-color: #f9f9f9;
+    overflow: scroll;
+}
+
+textarea {
+    /* resize: none; */
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #007aff;
+    background-color: #fff;
+}
+
+/* Output Section */
+.output-group {
+    border-top: 1px solid #ddd;
+    margin-bottom: 84px;
+}
+
+.output-box {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #292929;
+    white-space: pre-wrap;
+    min-height: 50px;
+    color: white;
+}
+
+/* Button Styles */
+.button-container {
+    text-align: center;
+}
+
+button {
+    /* padding: 12px 20px; */
+    /* font-size: 1rem; */
+    border: none;
+    border-radius: 6px;
+    background-color: #007aff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 35px;
+    height: 35px;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button:hover:enabled {
+    background-color: #005bb5;
+}
+.proj-desc-section{width: 50%;}
+.proj-links-section{width: 50%;margin-left: 50px;}
+
+.proj-desc-section .input-group {
+    height: 100%;
+}
+
+.proj-desc-section textarea {
+    width: 100%;
+    height: 70%;
+    resize: none;
+}
+
+.proj-links-section input {
+    width: 92%;
+}
+
+.screenshots-container .input-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+    gap: 8px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 23px;
+}
+
+.screenshots-container textarea {
+    height: 137px;
+}
+
+.button-container button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007aff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+.screenshots-container {
+    /* height: 300px; */
+    /* overflow: scroll; */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Modify the existing CSS styles as per your requirement */
+.input-group {
+    position: relative;
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
+    margin-bottom: 10px;
+}
+
+.plus-icon, .delete-icon {
+    background: #107bff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    /* position: absolute; */
+    top: 5px;
+    right: 5px;
+}
+
+.delete-icon {
+    right: 35px;
+    color: red;
+}
+.image-preview img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.card-left {
+    max-width: 50%;
+}
+
+.card {
+    display: flex;
+    padding: 50px 0px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+}
+
+.card-right {
+    padding: 0px 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.card-right textarea {
+    height: 210px;
+    width: 96%;
+    resize: none;
+}
+
+.wrapper {
+    /* height: 100vh; */
+    /* background: #5e5e5e; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 7px;
+  }
+  
+  .btn {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    /* margin-right: 60px; */
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  
+  .btn:last-child {
+    margin-right: 0;
+  }
+  
+  
+  .btn:before, .btn:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 4px;
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+  }
+  
+  .close-btn {
+    background: #FF5D5B;
+    border: 1px solid #CF544D;
+    align-items: center;
+    /* height: 17px; */
+    display: flex;
+    border-radius: 14px;
+    /* padding: 10px; */
+    /* justify-content: flex-start; */
+  }
+  
+  .min-btn {
+    background: #FFBB39;
+    border: 1px solid #CFA64E;
+  }
+  
+  .max-btn {
+    background: #00CD4E;
+    border: 1px solid #0EA642;
+  }
+  
+  
+  
+  /* Close btn */
+  .close-btn:before, .close-btn:after {
+    width: 1px;
+    height: 70%;
+    background: #460100;
+  }
+  
+  
+  .close-btn:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  
+  .close-btn:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  
+  
+  /* min btn */
+  .min-btn:before {
+    width: 70%;
+    height: 1px;
+    background: #460100;
+  }
+  
+  
+  /* max btn */
+  .max-btn:before {
+    width: 70%;
+    height: 10%;
+    background: #024D0F;
+  }
+  
+  .max-btn:after {
+    width: 9px;
+    height: 70%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background: #00CD4E;
+  }
+  
+  
+  /* Hover function */
+  .btn:hover:before, .btn:hover:after {
+    top: 50%;
+    opacity: 1;
+  }
+  /* Modal styles */
+  .image-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+}
+
+.image-modal .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    border: 2px solid white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.image-modal .image-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    z-index: 1001;
+    display: inline-flex;
+    /* height: fit-content; */
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.image-modal .image-close-btn:hover {
+    color: #ff0000;
+}
+
+/* Centering the image */
+.image-modal img {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }

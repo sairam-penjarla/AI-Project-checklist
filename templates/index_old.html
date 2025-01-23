@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Submission</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='markdown_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        async function renderMarkdown() {
+            const markdownElements = document.querySelectorAll('.markdown');
+            markdownElements.forEach((element) => {
+                const rawContent = element.getAttribute('data-raw-content');
+                element.textContent = rawContent;
+            });
+        }
+
+        async function copyToClipboard(content) {
+            navigator.clipboard.writeText(content).then(() => {
+                alert('Copied to clipboard!');
+            }).catch((err) => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        async function uploadScreenshot(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const fileInput = document.getElementById('screenshot');
+            if (!fileInput.files.length) {
+                alert("Please select a screenshot file.");
+                return;
+            }
+
+            formData.append('screenshot', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/generate-thumbnail', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.error}`);
+                    return;
+                }
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const resultImage = document.getElementById('result-image');
+                resultImage.src = url;
+                resultImage.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while generating the thumbnail.');
+            }
+        }
+
+        async function submitProject(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('project-form'));
+
+            try {
+                const response = await fetch('/submit-project', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    const resultContainer = document.getElementById('project-result');
+                    const result = data.result;
+                    console.log(result)
+                    resultContainer.innerHTML = `
+                        <h3>Generated Outputs</h3>
+                        <div class="markdown-container">
+                            <div class="header">
+                                <div class="markdown-heading">YouTube Video Script</div>
+                                <button onclick="copyToClipboard('${result.youtube_script_prompt}');">Copy</button>
+                            </div>
+                            <div class="body markdown" data-raw-content="${result.youtube_script_prompt}"></div>
+                        </div>
+                        <div class="markdown-container">
+                            <div class="header">
+                                <div class="markdown-heading">YouTube Video Description</div>
+                                <button onclick="copyToClipboard('${result.youtube_description_prompt}');">Copy</button>
+                            </div>
+                            <div class="body markdown" data-raw-content="${result.youtube_description_prompt}"></div>
+                        </div>
+                        <div class="markdown-container">
+                            <div class="header">
+                                <div class="markdown-heading">README File</div>
+                                <button onclick="copyToClipboard('${result.readme_file_prompt}');">Copy</button>
+                            </div>
+                            <div class="body markdown" data-raw-content="${result.readme_file_prompt}"></div>
+                        </div>
+                        <div class="markdown-container">
+                            <div class="header">
+                                <div class="markdown-heading">Overview</div>
+                                <button onclick="copyToClipboard('${result.overview_prompt}');">Copy</button>
+                            </div>
+                            <div class="body markdown" data-raw-content="${result.overview_prompt}"></div>
+                        </div>
+                        <div class="markdown-container">
+                            <div class="header">
+                                <div class="markdown-heading">Demo</div>
+                                <button onclick="copyToClipboard('${result.demo_prompt}');">Copy</button>
+                            </div>
+                            <div class="body markdown" data-raw-content="${result.demo_prompt}"></div>
+                        </div>
+                        <div class="markdown-container">
+                            <div class="header">
+                                <div class="markdown-heading">Architecture Details</div>
+                                <button onclick="copyToClipboard('${result.architecture_prompt}');">Copy</button>
+                            </div>
+                            <div class="body markdown" data-raw-content="${result.architecture_prompt}"></div>
+                        </div>
+                    `;
+                    renderMarkdown();
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the project.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div style="display: flex;">
+        <div style="width: 50%; padding: 10px;">
+            <form id="project-form" method="POST" enctype="multipart/form-data">
+                <h3>Project Details</h3>
+                <textarea name="project_details" rows="4" cols="50" placeholder="Enter project details"></textarea><br><br>
+
+                <h3>YouTube Link</h3>
+                <input type="url" name="youtube_link" placeholder="Enter YouTube link"><br><br>
+
+                <h3>GitHub Link</h3>
+                <input type="url" name="github_link" placeholder="Enter GitHub link"><br><br>
+
+                <h3>Blog Link</h3>
+                <input type="url" name="blog_link" placeholder="Enter Blog link"><br><br>
+
+                <h3>Screenshots</h3>
+                <input type="file" id="screenshot" name="screenshots" multiple><br><br>
+                <textarea name="screenshot_desc" rows="2" cols="50" placeholder="Describe each screenshot"></textarea><br><br>
+
+                <h3>Architecture Diagram</h3>
+                <input type="file" name="architecture_image"><br><br>
+                <textarea name="architecture_desc" rows="4" cols="50" placeholder="Describe the architecture diagram"></textarea><br><br>
+
+                <button type="button" onclick="submitProject(event)">Submit Project</button>
+            </form>
+        </div>
+        <div id="project-result" style="width: 50%; padding: 10px; display: none;"></div>
+    </div>
+    <div>
+        <h3>Generated Thumbnail:</h3>
+        <img id="result-image" style="display: none;" alt="Generated Thumbnail">
+    </div>
+</body>
+</html>
