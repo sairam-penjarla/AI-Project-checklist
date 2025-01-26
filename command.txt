@@ -1,0 +1,2 @@
+conda activate writer_env
+python -B app.py

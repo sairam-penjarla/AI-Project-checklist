@@ -18,7 +18,7 @@
                 });
                 submitButton.disabled = !allFilled;
             }
-
+            // Updated submitProject function
             async function submitProject(event) {
                 event.preventDefault();
 
@@ -29,11 +29,11 @@
                     // Add screenshot file names and descriptions to formData
                     const screenshotCards = document.querySelectorAll("#screenshots-container .card");
                     screenshotCards.forEach((card, index) => {
-                        const fileInput = card.querySelector('input[type="file"]');
-                        const descriptionTextarea = card.querySelector('textarea[name="screenshot_desc"]');
+                        const fileName = card.getAttribute("data-file-name"); // Get the stored original file name
+                        const descriptionTextarea = card.querySelector("textarea[name='screenshot_desc']");
 
-                        if (fileInput && fileInput.files[0]) {
-                            formData.append(`screenshot_file_${index + 1}`, fileInput.files[0].name); // File name
+                        if (fileName) {
+                            formData.append(`screenshot_file_${index + 1}`, fileName); // Original file name
                         }
                         if (descriptionTextarea) {
                             formData.append(`screenshot_desc_${index + 1}`, descriptionTextarea.value); // Description
@@ -43,11 +43,11 @@
                     // Add architecture file names and descriptions to formData
                     const architectureCards = document.querySelectorAll("#architecture-container .card");
                     architectureCards.forEach((card, index) => {
-                        const fileInput = card.querySelector('input[type="file"]');
-                        const descriptionTextarea = card.querySelector('textarea[name="architecture_desc"]');
-
-                        if (fileInput && fileInput.files[0]) {
-                            formData.append(`architecture_file_${index + 1}`, fileInput.files[0].name); // File name
+                        const fileName = card.getAttribute("data-file-name"); // Get the stored original file name
+                        const descriptionTextarea = card.querySelector("textarea[name='architecture_desc']");
+            
+                        if (fileName) {
+                            formData.append(`architecture_file_${index + 1}`, fileName); // Original file name
                         }
                         if (descriptionTextarea) {
                             formData.append(`architecture_desc_${index + 1}`, descriptionTextarea.value); // Description
@@ -79,95 +79,6 @@
                 }
             }
 
-
-            // Add new screenshot uploader section
-            function addScreenshotUploader() {
-                const container = document.getElementById("screenshots-container");
-                const uploader = document.createElement("div");
-                uploader.classList.add("card");
-                uploader.innerHTML = `
-                    <div class="card-left">
-                        <div class="image-preview" style="display: none;">
-                            <img src="" alt="Uploaded Screenshot" onclick="showImagePreview(this)" />
-                        </div>
-                        <div class="upload-button">
-                            <input type="file" name="screenshots" accept="image/*" onchange="handleFileUpload_screenshots(event)">
-                        </div>
-                    </div>
-                    <div class="card-right">
-                        <textarea name="screenshot_desc" rows="3" placeholder="Describe the screenshot"></textarea>
-                    </div>
-                `;
-                container.appendChild(uploader);
-            }
-
-            // Add new architecture diagram uploader section
-            function addArchitectureUploader() {
-                const container = document.getElementById("architecture-container");
-                const uploader = document.createElement("div");
-                uploader.classList.add("card");
-                uploader.innerHTML = `
-                    <div class="card-left">
-                        <div class="image-preview" style="display: none;">
-                            <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
-                        </div>
-                        <div class="upload-button">
-                            <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUpload_architecture(event)">
-                        </div>
-                    </div>
-                    <div class="card-right">
-                        <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
-                    </div>
-                `;
-                container.appendChild(uploader);
-            }
-
-            // Handle file upload for multiple screenshots/architecture and generate thumbnails
-            function handleFileUpload_screenshots(event) {
-                const input = event.target;
-                const fileInput = input.closest(".card").querySelector('input[type="file"]');
-                const previewContainer = input.closest(".card").querySelector(".image-preview");
-                const descriptionInput = input.closest(".card").querySelector("textarea");
-                const formData = new FormData();
-                formData.append("screenshot", fileInput.files[0]);
-
-                // Send the screenshot to the server to generate thumbnail
-                fetch("/generate_thumbnail", {
-                    method: "POST",
-                    body: formData,
-                })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    const imageUrl = URL.createObjectURL(blob);
-                    previewContainer.querySelector("img").src = imageUrl;
-                    previewContainer.style.display = "block";
-                })
-                .catch((error) => alert("Error generating thumbnail: " + error));
-            }
-
-
-            // Handle file upload for multiple screenshots/architecture and generate thumbnails
-            function handleFileUpload_architecture(event) {
-                const input = event.target;
-                const fileInput = input.closest(".card").querySelector('input[type="file"]');
-                const previewContainer = input.closest(".card").querySelector(".image-preview");
-                const descriptionInput = input.closest(".card").querySelector("textarea");
-                const formData = new FormData();
-                formData.append("screenshot", fileInput.files[0]);
-
-                // Send the screenshot to the server to generate thumbnail
-                fetch("/generate_thumbnail_arch", {
-                    method: "POST",
-                    body: formData,
-                })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    const imageUrl = URL.createObjectURL(blob);
-                    previewContainer.querySelector("img").src = imageUrl;
-                    previewContainer.style.display = "block";
-                })
-                .catch((error) => alert("Error generating thumbnail: " + error));
-            }
             function showImagePreview(imgElement) {
                 const modal = document.getElementById("image-modal");
                 const modalImage = document.getElementById("modal-image");
@@ -188,6 +99,97 @@
                 }
             }
         </script>
+        <script>
+            // Add a new screenshot card dynamically for each file uploaded
+            function addScreenshotCard(file, imageUrl) {
+                const container = document.getElementById("screenshots-container");
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.setAttribute("data-file-name", file.name); // Store the original file name in a data attribute
+                card.innerHTML = `
+                    <div class="card-left">
+                        <div class="image-preview">
+                            <img src="${imageUrl}" alt="Uploaded Screenshot" onclick="showImagePreview(this)" />
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <textarea name="screenshot_desc" rows="3" placeholder="Describe the screenshot"></textarea>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+
+            // Handle multiple file uploads
+            function handleFileUploads(event) {
+                const files = event.target.files;
+                Array.from(files).forEach((file) => {
+                    const formData = new FormData();
+                    formData.append("screenshot", file);
+
+                    // Send the screenshot to the server to generate a thumbnail
+                    fetch("/generate_thumbnail", {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                            const imageUrl = URL.createObjectURL(blob);
+                            addScreenshotCard(file, imageUrl); // Pass the original file name to the addScreenshotCard function
+                        })
+                        .catch((error) => alert("Error generating thumbnail: " + error));
+                });
+            }
+        </script>
+        <script>
+            // Add a new architecture diagram uploader section
+            function addArchitectureUploader() {
+                const container = document.getElementById("architecture-container");
+                const uploader = document.createElement("div");
+                uploader.classList.add("card");
+                uploader.setAttribute("data-file-name", ""); // Placeholder for original file name
+                uploader.innerHTML = `
+                    <div class="card-left">
+                        <div class="image-preview" style="display: none;">
+                            <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
+                        </div>
+                        <div class="upload-button">
+                            <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUploadArchitecture(event)">
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
+                    </div>
+                `;
+                container.appendChild(uploader);
+            }
+            
+            // Handle file upload for architecture images
+            function handleFileUploadArchitecture(event) {
+                const input = event.target;
+                const file = input.files[0];
+                const card = input.closest(".card");
+                const previewContainer = card.querySelector(".image-preview");
+                const formData = new FormData();
+                formData.append("screenshot", file);
+            
+                // Store the original file name in the data attribute
+                card.setAttribute("data-file-name", file.name);
+            
+                // Send the architecture image to the server to generate a thumbnail
+                fetch("/generate_thumbnail_arch", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => response.blob())
+                    .then((blob) => {
+                        const imageUrl = URL.createObjectURL(blob);
+                        previewContainer.querySelector("img").src = imageUrl;
+                        previewContainer.style.display = "block";
+                    })
+                    .catch((error) => alert("Error generating thumbnail: " + error));
+            }
+            
+            </script>
     </head>
     <body oninput="enableSubmitButton()">
         <div class="left-container">
@@ -197,7 +199,7 @@
                     <div class="btn close-btn"></div>
                     <div class="btn min-btn"></div>
                     <div class="btn max-btn"></div>
-                  </div>
+                </div>
                 <h2>Project Details</h2>
                 <form id="project-form" method="POST" enctype="multipart/form-data">
                     <div class="proj-desc-section">
@@ -231,41 +233,30 @@
                 <h3>Screenshots</h3>
                 <div class="screenshots-container" id="screenshots-container">
                     <!-- Screenshot Cards -->
-                    <div class="card">
-                        <div class="card-left">
-                            <div class="image-preview" style="display: none;">
-                                <img src="" alt="Uploaded Screenshot" onclick="showImagePreview(this)" />
-                            </div>
-                            <div class="upload-button">
-                                <input type="file" name="screenshots" accept="image/*" onchange="handleFileUpload_screenshots(event)">
-                            </div>
-                        </div>
-                        <div class="card-right">
-                            <textarea name="screenshot_desc" rows="3" placeholder="Describe the screenshot"></textarea>
-                        </div>
+                    <!-- Add more screenshots by uploading files -->
+                    <div class="upload-button">
+                        <input type="file" name="screenshots" accept="image/*" multiple onchange="handleFileUploads(event)" />
                     </div>
-                    <!-- Add more screenshots by clicking the plus icon -->
-                    <button class="plus-icon" onclick="addScreenshotUploader()">+</button>
                 </div>
 
                 <!-- Architecture Diagram Section -->
                 <h3>Architecture Diagram</h3>
                 <div class="architecture-container" id="architecture-container">
                     <!-- Architecture Cards -->
-                    <div class="card">
+                    <div class="card" data-file-name="">
                         <div class="card-left">
                             <div class="image-preview" style="display: none;">
                                 <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
                             </div>
                             <div class="upload-button">
-                                <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUpload_architecture(event)">
+                                <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUploadArchitecture(event)">
                             </div>
                         </div>
                         <div class="card-right">
                             <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
                         </div>
                     </div>
-
+                
                     <!-- Add more architecture diagrams by clicking the plus icon -->
                     <button class="plus-icon" onclick="addArchitectureUploader()">+</button>
                 </div>

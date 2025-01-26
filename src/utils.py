@@ -13,10 +13,10 @@ def process_data(project_details, youtube_link, github_link, blog_link, screensh
     result = {
         'youtube_script_prompt': get_youtube_script_prompt(project_details, screenshot_details, architecture_details),
         'youtube_description_prompt': get_youtube_description_prompt(project_details, github_link, blog_link),
-        'readme_file_prompt': get_readme_file_prompt(project_details, github_link, blog_link),
+        'readme_file_prompt': get_readme_file_prompt(project_details, github_link, blog_link) + "\n\n" + get_demo_prompt(screenshot_details) + "\n\n" + get_architecture_prompt(architecture_details),
         'overview_prompt': get_overview_prompt(project_details, youtube_link, github_link, blog_link),
-        'demo_prompt': demo_prompt + get_demo_prompt(screenshot_details),
-        'architecture_prompt': architecture_prompt + get_architecture_prompt(architecture_details),
+        'demo_prompt': demo_prompt + f"Project details: {project_details}\n\n" + get_demo_prompt(screenshot_details),
+        'architecture_prompt': architecture_prompt + f"Project details: {project_details}\n\n" + get_architecture_prompt(architecture_details),
     }
     return result
 
@@ -28,7 +28,7 @@ def get_youtube_script_prompt(project_details, screenshot_details, architecture_
         + project_details 
         + "\n\n ### UI Screenshots\n" 
         + get_demo_prompt(screenshot_details) 
-        + "\n\n ### Architecture diagram" 
+        + "\n\n ### Architecture diagram\n\n" 
         + get_architecture_prompt(architecture_details)
     )
 

@@ -10,9 +10,9 @@ app = Flask(__name__)
 mockup_folder = "static/thumbnails"
 output_folder = "./output_thumbnail"
 chrome_coordinates = (316, 231)
-safari_coordinates = (316, 205)
+safari_coordinates = (316, 179)
 chrome_width = 1288
-safari_width = 1288
+safari_width = 1280
 
 thumbnail_handler = ThumbnailHandler(mockup_folder, output_folder, chrome_coordinates, safari_coordinates, chrome_width, safari_width)
 
@@ -29,6 +29,7 @@ def index():
 @app.route('/submit-project', methods=['POST'])
 def submit_project():
     try:
+        
         # Extract basic project details
         project_details = request.form.get('project_details', '')
         youtube_link = request.form.get('youtube_link', '<PASTE LINK HERE>')
@@ -131,4 +132,4 @@ def generate_thumbnail_arch():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8000)
