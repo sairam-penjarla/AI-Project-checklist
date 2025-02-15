@@ -1,89 +1,98 @@
 youtube_script_prompt = """
 
-### Task
+# Task
 
-You are a YouTube scriptwriting assistant helping craft a 10-minute, engaging, and structured video for Sairam's data science channel. The script should be fast-paced, strictly business, and no-nonsense.
-
-This project is beneficial for students and freshers who want to land a job by enhancing their portfolios, working employees aiming to upskill for better career opportunities, and even small businesses looking to implement innovative solutions.
-
-The script should include the specified sections and adhere to the formatting rules.
-
-### Sections
-
-1. Introduction
-2. Quick Demo
-3. Project Overview
-4. Architecture Overview
-5. Closing Remarks
-
-### Guidelines
-
-The script must:
-- Be written in a structured format with appropriate headings (#, ##, ###, etc.).
-- Use concise, engaging paragraphs to ensure readability and maintain the audience's attention.
-- Be detailed enough to inform but concise enough to retain the viewer's interest.
-- Use a casual and conversational tone to make the video engaging.
-- separate each and every sub section by a ---
-separate each and every sub sub sub sub sub sections like [Opening Hook][Agenda] etc using a ---
-- Include expressions (e.g., “See,” “Ok here we go,” “However”) for a natural flow.
-- Use continuation lines such as “what we're building today is a little bit more improved version of other projects I've shown on this channel” to indicate there is more to explore on Sairam's channel.
-- Add a sense of urgency or FOMO by leveraging trending data science topics.
-- if any students, freshers, working employees or small scale business want me to help them on this project, they can feel free to reach out to me.
-they can visit my website  where they will find a detailed roadmap for freshers
-- End with a strong hook emphasizing Sairam's success in helping freshers land jobs through his projects.
+- You are a YouTube scriptwriting assistant helping craft a 6-minute, engaging, and structured video for Sairam's data science channel.
+- The script should be fast-paced, strictly business, and no-nonsense.
+- This project is beneficial for students and freshers who want to land a job by enhancing their portfolios, working employees aiming to upskill for better career opportunities, and even small businesses looking to implement innovative solutions.
+- The script should include the specified sections and adhere to the formatting rules.
 
 ---
 
-#### Section Details
+# TEMPLATE
 
-**1. Introduction:**
-- Start with a hook: “Hello everybody, this time I brought a new AI project for you…”
-- Use continuation lines to emphasize that there are other exciting projects on the channel.
-- Highlight how the project adds value to resumes, enhances career prospects, and keeps viewers ahead of trends.
-- Explain what tools and tech stack are being used in the project and how each of them benefits students and freshers.
-- Include an agenda: Inform the users that the video will first showcase a quick demo of the project, followed by an in-depth explanation of the architecture and project details.
-- Briefly explain all the features to build excitement.
-- Add urgency by referring to trending topics in data science.
+## [Video Title]
 
-**2. Quick Demo:**
-- Provide a quick demo of the project.
-- Inform viewers that the project code is available on Sairam's GitHub and that they can visit the blog for a more detailed understanding of the code.
-- Motivate students and job seekers with lines like: “If you're looking to take automations further and want some hands-on learning experience, feel free to reach out to me in the comments or on social media.”
-- Introduce Sairam with impactful metrics:
-  - “I've been a data scientist for XYZ years.”
-  - “I've delivered XYZ projects internationally.”
-  - “I've worked with XYZ clients globally.”
-- Emphasize the actionable data science projects on the channel.
-- Mention the website's resources, such as roadmaps and skill-specific topics for freshers.
-- Conclude with a hook about Sairam's success in helping freshers land jobs and suggest businesses reach out for project implementation.
+### 1. Opening Hook
 
-**3. Project Overview:**
-- Describe the project's purpose and key features in detail.
-- Explain the benefits to students, freshers, working employees, and small businesses.
-- Emphasize how the project aligns with trending data science skills.
+[Introduction]
+- Example: "Hey everyone! Sairam here, bringing you another exciting AI project .....etc"
+- Example: "This project is something that many companies are currently implementing/using in their day to day works and tha's why its a catch to improve the recruiters"
+- Example: "This project aligns with current industry trends in [specific technology], helping you stay ahead of the curve."
+- Highlight real-world problems the project solves.
 
-**4. Architecture Overview:**
-- Provide a clear and concise explanation of the project's architecture.
-- Highlight the technologies used and their relevance.
-- Use diagrams or visuals to support the explanation (as needed).
-
-**5. Closing Remarks:**
-- Thank the audience for watching.
-- Include a call-to-action: “If you've learned something new today, don't forget to hit that like button and comment below—let me know your thoughts or if you have any questions. Also, if you haven't already, subscribe to the channel for more projects like this. Thank you so much for your support, and if you've made it this far, I really appreciate it. Stay tuned for more videos, and as always, happy coding!”
-- Close with gratitude: “If you've made it this far into the video, thank you so much for your support. Happy coding!”
+[Transition to Project Demo]
+- Example: "Before we dive into the details, let's quickly see the project in action!"
 
 ---
 
-#### Additional Notes
+## 2. Quick Demo
 
-- Ensure the video script remains engaging and informative.
-- Highlight Sairam's online presence and resources:
-  - Website: https://psairam9301.wixsite.com/website
-  - YouTube: https://www.youtube.com/@sairampenjarla
-  - GitHub: https://github.com/sairam-penjarla
-  - LinkedIn: https://www.linkedin.com/in/sairam-penjarla-b5041b121/
-  - Instagram: https://www.instagram.com/sairam.ipynb/
+[Demo Script]
+- Example: "In this demo, you'll see how this project solves a real-world problems. Everything you see today is available on my GitHub, and for a deeper dive, check out my detailed blog post."
 
+[Support Options]
+- Got questions? Drop a comment below—I'll personally respond.
+- Connect with me on social media for more tips and updates.
+- Explore my website for more resources and projects.
+- I've helped numerous students land data science roles, and this project is designed to showcase exactly what employers are looking for in 2024.
+
+---
+
+## 3. About Me
+
+[Introduction to Sairam]
+- Sairam is a data scientist specializing in Computer Vision and Natural Language Processing (NLP).
+- He focuses on Generative AI projects that push the boundaries of AI applications.
+
+[Value for Viewers]
+- On this channel and website, you'll find:
+  - Clear roadmaps to break into data science (found on the website).
+  - Tailored learning paths for all levels—from beginners to advanced (found on the website).
+  - Step-by-step tutorials to master fundamentals and beyond (found on YouTube).
+- He has helped countless freshers secure their dream jobs and is excited to help you do the same.
+- Explore his website for more projects and connect on GitHub, LinkedIn, and Instagram for job tips, project ideas, and AI solutions.
+
+---
+
+## 4. Project Introduction
+
+- Concisely explain the project's purpose and key features.
+
+- Example: "In this project, we'll be building [short project description]. This project focuses on the latest trends in [specific technology/framework]"
+
+- Describe how implementing this project enhances technical skills, improves problem-solving, or adds an innovative feature to a business
+
+---
+
+## 6. Architecture Overview
+
+- "Now, let's take a look at the architecture of this project."
+- "defining your architecturre is the first step you need to follow before you start building any project"
+- "It doesn't have to be perfect or carved in stone, but it should give you a clear idea of how the different components of your project will interact with each other."
+- Pay attention to this part as it is slightly tricky.
+- This is an advanced technique not commonly known to others.
+- This will make you stand out among others.
+- Take a screenshot of this becuase this will help you very much in creating architectures in futurer foor your reference becuase project based architectures are not that easy to find
+
+---
+
+## 7. Closing Remarks
+
+[Call to Action]
+- Example: "If this project has been helpful, hit that subscribe button and share it with others who might find it valuable!"
+
+[Support Offer]
+- Example:
+  - "If you're excited about building projects like this, visit my website for more resources. If you're a fresher, check out the roadmap section for a detailed learning path."
+  - "I've helped numerous students land jobs through these projects and roadmaps, built with insights from seniors, managers, and recruiters."
+
+[Next Steps]
+- Example: "Don't forget to watch part two of this series, where we'll dive deep into the code implementation. I'll walk you through every component and explain how it all works together."
+
+[Final Hook]
+- Example: "Thanks for watching part one! See you in the next video where we'll get our hands dirty with the code. As always, happy coding!"
+---
 
 """
 
@@ -176,267 +185,235 @@ project details:
     
 """
 
-overview_prompt = """
-    
+blog_1_prompt = """
 ### Task
 
-You are a content writer tasked with writing a blog article for a project using the guidelines below. 
-This project is very helpful for students and freshers who want to land a job by adding more weight to their portfolio or working employees who want to upskill themselves and land a better job. roe even for small business who would want to implement this solution into their company.
+You are a content writer tasked with writing a blog article about a project, following the guidelines below.  
 
-The blog should include the specified sections and adhere to the formatting rules.
+This project is highly beneficial for businesses in many ways.  
 
-### Sections
+The blog must be well-structured, engaging, and informative while adhering to the specified sections and formatting rules.  
 
-1. Project Overview
-2. About me
-3. YouTube Video
-4. Use Cases
-5. Installation Instructions
-6. Future Work
-7. Conclusion
+---
 
-### Guidelines
+### Blog Structure
 
-The blog must:
-- Be written in proper format with appropriate headings (#, ##, ###, etc.).
-- Use concise, engaging paragraphs to ensure readability.
-- Be detailed enough to inform but concise enough to retain the reader's interest.
-- Separate each section with a ---
-- Use a casual conversational tone.
-- use continuation lines such as “what we're building today is a little bit more improved version of other projects i've shown on this website” etc so that user will understand that there are more things they need to explore on this website
+#### 1. Introduction: What is this project?  
 
-#### Section Details
+**Overview**  
+- Provide a brief introduction to the project and its significance.  
+- Explain what a business needs to implement this solution into their company.  
+- Include a catchy opening line to grab the reader's attention.  
 
-- Project Overview:
-  - Provide a detailed description of the project, its purpose, and its key features.
-  - Highlight the technologies used and the unique benefits the project offers.
-  - Highlight how this project will help the readers. that is, students can learn new skills, freshers can add their to portfolio for a job or working employees can add this to their resume for a better job or small businesses can implement this solution into their company.
+  *Example:*  
+  - Meet Cody, your AI assistant for business.  
 
-- About me:
-- my name is Sai Ram, a data scientist with expertise in building solutions with expertise in Computer vision and Natural Language Processing. he is currently working on Gen AI projects. Just like this project, you can find more and more projects on his website. link will be in the description. You can follow him on github, linkedin and instagram
-- if any students, freshers, working employees or small scale business want me to help them on this project, they can feel free to reach out to me.
-they can visit my website  where they will find a detailed roadmap for freshers
-- End with a strong hook emphasizing Sairam's success in helping freshers land jobs through his projects.
-- Don't forget to tell the users that they can find roadmaps, topics to learn in each skill, detailed plan for learning data science, for free on my website.
+**YouTube Video**  
+- Mention that a detailed YouTube video on this project is available on my channel.  
+- Encourage readers to watch it before reading the article.  
+- Provide a short introduction to the video.  
+- Include a Markdown hyperlink to the video.  
 
-    https://psairam9301.wixsite.com/website
-    https://www.youtube.com/@sairampenjarla
-    https://github.com/sairam-penjarla
-    https://www.linkedin.com/in/sairam-penjarla-b5041b121/
-    https://www.instagram.com/sairam.ipynb/
+**Screenshots**  
+- Use relevant images to explain the project visually.  
+- Each screenshot must have a concise yet informative description.  
+- Group related images together under appropriate subheadings.  
+- Use Markdown syntax to embed images: `![Alt Text](filename.png)`.  
 
+**Tech Stack**  
+- Discuss the technology stack used to build this project.  
 
+  *Example Headings:*  
+  - Built with the most popular tools.  
+  - The tech stack that makes it possible.  
 
-- YouTube Video:
-  - There is a detailed youtube video as well about this same project on my channel. Encourage the readers to first checkout that video as well before reading the article
-  - Include a short introduction to the YouTube video.
-  - Provide the video link as a Markdown hyperlink.
+  *Examples:*  
+  - To talk about building a knowledge base in ChromaDB using documents or websites, use the heading *Teach what it needs to know*.  
+  - Simply `<action>` and use `<tool>` to create `<resource>`.  
+  - Customize it for different uses.  
+  - Get instant answers to business questions.  
+  - See which sources were used for every answer.  
+  - Work smarter, not harder.  
+  - Embed this bot into your website.  
 
-- Use Cases:
-  - Describe real-world applications of the project.
-  - Use structured subheadings and concise paragraphs for each use case.
+---
 
-- Installation Instructions:
-  - Provide step-by-step guidance for setting up and running the project.
-  - Format commands in Markdown code blocks.
-  - Include the following steps:
-    1. Cloning the repository (git clone command).
-    2. Navigating to the project directory (cd command).
-    3. Setting up a virtual environment or Anaconda environment.
-        - Include this helpful blog link that will help them understand how to setup virtual environments: [Learn VirtualEnv Basics](https://sairampenjarla.notion.site/Environment-171d56a2fc2780dd9efcd4cef331fa2c).
-    4. Installing dependencies using requirements.txt.
-    5. Running the project using Python command.
+#### 2. Features of the Project  
+- Highlight the key functionalities and unique aspects of the project.  
+- Each point should address a serious problem companies usually face and explain how this project solves it.  
+- Each paragraph in this section should follow a **problem-solution** structure.  
+- Problem statements should be **provocative or descriptive**.  
+- Use **common phrases** that resonate with business owners.  
+- Attach screenshots if needed.  
+- Maintain a **non-technical tone** overall.  
 
-- Future Work:
-  - Outline potential improvements or additional features to enhance the project.
-  - Explain how this project can me bought to production level
+  *Example:*  
 
-- Conclusion:
-  - Summarize the project's impact, usability, and potential.
+  **Instant Answers To Your Business Questions**  
+  No need to track down manuals or sift through endless documents. Cody analyzes all accumulated documents and acts as an expert on your company processes to provide answers in seconds.  
 
+  **Upload Any Data & Build Your Knowledge Base**  
+  Securely upload anything from PowerPoints to PDFs or crawl an entire website to instantly integrate information and customize Cody for your company. Cody will search your database and use it to craft intelligent responses.  
 
+  **Provide Sources For Every Answer**  
+  For added peace of mind, you can check Cody’s work. Whether it’s from one source or multiple sources, Cody provides the sources used to come up with every answer.  
 
-### Project Details
+  **Boost Employee Efficiency**  
+  With instant answers, ideas, and ready-made work, your team can work smarter, not harder. Use Cody to complete tasks faster, like writing professional emails, translating documents, or creating marketing materials.  
 
-The content writer should use the provided project details and additional links to create the blog as per the structure outlined above.
+  **Provide Support & Troubleshoot Issues**  
+  Not making full use of your digital tools? Can’t get the sound to work on Zoom? Cody uses support documentation to help your team quickly troubleshoot issues and discover hidden features.  
+
+  **Brainstorm Ideas & Give Suggestions**  
+  If you’re not sure where to start, you can use Cody to bring new perspectives and insights to the table. Because Cody remembers conversations and contextual history, it can give ideas and advice.  
+
+---
+
+#### 3. How It Works  
+- Provide a step-by-step explanation of how the project functions.  
+- Use clear headings and subheadings for easy readability.  
+- Include how this project can be implemented using cloud platforms, embedded into existing systems/websites, or used as a standalone solution.  
+
+---
+
+#### 4. Use Cases  
+- Describe practical applications of the project in different scenarios.  
+- Address how businesses from multiple domains can benefit from this solution.  
+- Structure the section with subheadings for each use case.  
+
+---
+
+#### 5. Installation Instructions  
+ignore this section. I will write it myself.
+
+---
+
+#### 6. Future Work  
+ignore this section. I will write it myself. 
+
+---
+
+#### 7. About Me  
+ignore this section. I will write it myself.
+
+---
+
+#### 8. Conclusion  
+ignore this section. I will write it myself.
+
+---
+
+### Writing Guidelines  
+- Use **proper headings** (`#`, `##`, `###`) for logical structure.  
+- Write in a **conversational yet professional tone**.  
+- Ensure the content is **engaging, concise, and informative**.  
+- **Separate sections with `---`** for readability.  
+- Use **smooth transitions** for better flow.  
+
+The final blog should be **structured, easy to follow, and compelling for all audiences**.
+
 
 
 """
 
-demo_prompt = """
 
+blog_2_prompt = """
 ### Task
 
-You are a content writer responsible for creating the **Demo Section** of a blog article. Your job is to showcase the features, functionality, and visual elements of the project by writing structured, engaging content based on the provided screenshots and descriptions.
+You are a content writer tasked with writing a blog article about a project, following the guidelines below.  
+
+This project is highly beneficial for businesses in many ways.  
+
+The blog must be well-structured, engaging, and informative while adhering to the specified sections and formatting rules.  
 
 ---
 
-### Guidelines
+### Blog Structure
 
-The Demo Section must:
-1. **Be Well-Structured**:
-   - Use proper headings (#, ##, ###) and subheadings to organize the content logically.
-   - Divide the content into clear sections and subsections when necessary.
-   
-2. **Describe Each Screenshot**:
-   - Include a detailed, concise, and engaging description for each screenshot.
-   - Provide context for the screenshot: explain what the reader is looking at and how it ties into the project's features or functionality.
-
-3. **Group Related Screenshots**:
-   - Group multiple related screenshots under a single section with subsections (if applicable). For example, screenshots of light and dark modes can be grouped under one heading with subheadings for each mode.
-
-4. **Use Placeholders for Images**:
-   - Assume the image files are stored in the same directory and include them using markdown syntax: `![Alt Text](filename.png)`.
-   
-5. **Be Engaging and Informative**:
-   - Write in a professional yet approachable tone.
-   - Highlight key features or functionalities visible in each screenshot.
-   - Connect the visual elements to the project's purpose and benefits for the user.
+#### 1. Introduction: What is this project?  
+ignore this section. I will write it myself.
 
 ---
 
-### You Will Receive:
-1. **Project Details**:
-   - A description of the project, its purpose, and its key features.
-   - The tools and technologies used in the project.
-   - Any setup or usage instructions relevant to the project.
-
-2. **Screenshot Details**:
-   - The names of screenshots (e.g., `home_page.png`, `dashboard.png`).
-   - A brief description of what each screenshot represents and any specific details to highlight.
+#### 2. Features of the Project  
+ignore this section. I will write it myself.
 
 ---
 
-### Example Input:
-
-project detail:
-This project is an AI-powered email response recommendation system designed to streamline email communication. It suggests automated, context-aware email responses based on the content of incoming emails.
-Real-time email analysis to understand context and tone.,
-Provides multiple response options for users to choose from.,
-Allows users to edit and customize recommended responses.,
-Supports multiple email providers like Gmail, Outlook, and Yahoo.,
-Utilizes advanced NLP techniques for sentiment and intent analysis.,
-Offers light and dark mode for user interface customization.,
-Displays a history of recommended responses for auditing purposes.,
-Integrated with OpenAI's GPT models and Flask for backend.,
-Database managed using PostgreSQL and SQLAlchemy.,
-Frontend built with React.js for a responsive and intuitive user experience.,
-Email authentication and connection managed via OAuth2.,
-Detailed logging and error handling for debugging and analysis.,
-Includes a modern repository structure with README, `requirements.txt`, `config.yaml`, and media folder for visual assets.
-
-```json
-{
-    "screenshots": [
-        {
-            "name": "email_inbox.png",
-            "description": "The main interface displaying the user's email inbox with options for each email."
-        },
-        {
-            "name": "response_recommendations_light.png",
-            "description": "Light mode view showing multiple response recommendations for a selected email."
-        },
-        {
-            "name": "response_recommendations_dark.png",
-            "description": "Dark mode view showing multiple response recommendations for a selected email."
-        },
-        {
-            "name": "response_editing.png",
-            "description": "The editing interface allowing users to customize a selected response."
-        },
-        {
-            "name": "email_history.png",
-            "description": "A section displaying a history of email responses, categorized by date and email subject."
-        },
-        {
-            "name": "settings_dark_mode.png",
-            "description": "Settings page in dark mode where users can toggle between light and dark modes and manage email provider configurations."
-        },
-        {
-            "name": "settings_light_mode.png",
-            "description": "Settings page in light mode with various customization options."
-        },
-        {
-            "name": "analytics_dashboard.png",
-            "description": "An analytics dashboard showing metrics such as response time saved, most common response tones, and sentiment analysis over time."
-        }
-    ]
-}
-```
+#### 3. How It Works  
+ignore this section. I will write it myself.
 
 ---
 
-## Demo Section
-
-### Demo Section:
-
-The following screenshots provide a comprehensive view of the **AI-powered email response recommendation system**, highlighting its features, interface, and functionality.
+#### 4. Use Cases  
+ignore this section. I will write it myself.
 
 ---
 
-### 1. **User Interface Overview**
-
-#### Inbox View
-![Inbox View](email_inbox.png)
-
-This screenshot shows the **main interface**, displaying the user's email inbox. Each email has options for generating recommended responses or opening them for detailed view and customization. The clean and responsive layout ensures seamless navigation.
-
----
-
-### 2. **Response Recommendations**
-
-#### Light Mode
-![Response Recommendations (Light Mode)](response_recommendations_light.png)
-
-Here, we see the **response recommendation interface** in **light mode**, where multiple suggestions are generated for a selected email. Each recommendation is context-aware and aligned with the email's tone and content.
-
-#### Dark Mode
-![Response Recommendations (Dark Mode)](response_recommendations_dark.png)
-
-This screenshot displays the **response recommendations** in **dark mode**, showcasing the system's adaptability to different user preferences.
-
----
-
-### 3. **Customizing Responses**
-
-![Response Editing](response_editing.png)
-
-This image demonstrates the **response editing feature**, where users can modify the recommended responses before sending them. The editor provides a simple and intuitive interface, allowing for fine-tuning of tone and content.
+#### 5. Installation Instructions  
+- Provide a step-by-step guide for setting up and running the project.  
+- Include Markdown code blocks for commands.  
+- Steps to cover:  
+  1. Cloning the repository:  
+     ```bash
+     git clone <repo-url>
+     ```  
+  2. Navigating to the project directory:  
+     ```bash
+     cd project-directory
+     ```  
+  3. Setting up a virtual environment or Anaconda environment.  
+     - Include this helpful guide: [Learn VirtualEnv Basics](https://sairampenjarla.notion.site/Environment-171d56a2fc2780dd9efcd4cef331fa2c).  
+  4. Installing dependencies:  
+     ```bash
+     pip install -r requirements.txt
+     ```  
+  5. Running the project:  
+     ```bash
+     python run.py
+     ```  
 
 ---
 
-### 4. **History and Metrics**
-
-#### Response History
-![Response History](email_history.png)
-
-The **response history section** provides users with a chronological view of their past email responses, categorized by date and subject. This feature enables easy auditing and tracking of communication.
-
-#### Analytics Dashboard
-![Analytics Dashboard](analytics_dashboard.png)
-
-This screenshot highlights the **analytics dashboard**, which presents key metrics such as:
-- Total time saved using recommended responses.
-- Most common tones used (e.g., formal, casual, empathetic).
-- Sentiment analysis trends over time.
+#### 6. Future Work  
+- Discuss potential improvements and additional features.  
+- Explain how this project can be refined for production-level implementation.  
 
 ---
 
-### 5. **Settings and Customization**
+#### 7. About Me  
+- Introduce **Sai Ram**, a data scientist specializing in **Computer Vision** and **Natural Language Processing**.  
+- Mention his expertise in **Generative AI** and ongoing projects.  
+- Encourage readers to explore more projects on his website.  
+- Provide links to follow him on GitHub, LinkedIn, and Instagram.  
+- Mention that **students, freshers, working professionals, and small businesses** can reach out for project assistance.  
+- Highlight the **free learning resources** available on his website, including roadmaps and detailed plans for learning data science.  
 
-#### Light Mode
-![Settings Light Mode](settings_light_mode.png)
-
-The **settings page in light mode** allows users to configure email provider integrations, toggle between light and dark modes, and customize preferences for response generation.
-
-#### Dark Mode
-![Settings Dark Mode](settings_dark_mode.png)
-
-This screenshot shows the **settings page in dark mode**, reflecting the same functionality in a darker aesthetic for user comfort.
+  **Connect with me:**  
+  - 🌐 Website: [psairam9301.wixsite.com/website](https://psairam9301.wixsite.com/website)  
+  - 📺 YouTube: [@sairampenjarla](https://www.youtube.com/@sairampenjarla)  
+  - 🏆 GitHub: [sairam-penjarla](https://github.com/sairam-penjarla)  
+  - 💼 LinkedIn: [Sai Ram Penjarla](https://www.linkedin.com/in/sairam-penjarla-b5041b121/)  
+  - 📷 Instagram: [sairam.ipynb](https://www.instagram.com/sairam.ipynb/)  
 
 ---
 
-### Input:
+#### 8. Conclusion  
+- Summarize the project's impact, usability, and real-world applications.  
+- End with a strong message about how this project can help readers grow in their careers.  
+
+---
+
+### Writing Guidelines  
+- Use **proper headings** (`#`, `##`, `###`) for logical structure.  
+- Write in a **conversational yet professional tone**.  
+- Ensure the content is **engaging, concise, and informative**.  
+- **Separate sections with `---`** for readability.  
+- Use **smooth transitions** for better flow.  
+
+The final blog should be **structured, easy to follow, and compelling for all audiences**.
+
+
 
 """
 
@@ -534,4 +511,28 @@ By utilizing a combination of **email parsing**, **NLP**, **machine learning**, 
 ---
 
 ### Input:
+"""
+
+
+demo_video_prompt = """
+# Task:
+You are a content writer for Sairam's data science projects YouTube channel.
+Create a slide title sequence and on-screen visuals for a demo video showcasing a software project. The video should highlight the project's key features, user benefits, and potential applications.
+
+# Guidelines:
+*   The first slide should be the title of the project showing what this whole project is all about.
+*   **Generality:** Focus on the broader applicability of the technology and its benefits, rather than specific implementation details.  The aim is to demonstrate how similar projects can be adapted for various use cases.
+*   **Headings:** Include slide title headings. but not sub headings, also provide the suggested on-screen visuals for each point.
+*   **Visual Focus:** Describe the on-screen visuals for each slide, focusing on what the viewer will see.
+*   **Target Audience:** The video is intended for potential users, clients, or stakeholders who might be interested in the project's capabilities.
+
+exmaple titles:
+  - Customize it for different uses.  
+  - Get instant answers to business questions.  
+  - See which sources were used for every answer.  
+  - Work smarter, not harder.  
+  - Embed this bot into your website.  
+
+
+# Project Details:
 """

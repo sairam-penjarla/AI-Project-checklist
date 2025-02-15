@@ -12,7 +12,7 @@ class ThumbnailHandler:
         self.safari_width = safari_width
         self.mockup_files = [os.path.join(mockup_folder, f) for f in os.listdir(mockup_folder) if f.endswith((".png", ".jpg", ".jpeg"))]
 
-    def process_screenshot(self, screenshot_image):
+    def process_screenshot(self, screenshot_image, file_name):
         if not self.mockup_files:
             return None, "No mockups available."
 
@@ -39,7 +39,7 @@ class ThumbnailHandler:
         composite.paste(resized_screenshot, (x, y), resized_screenshot)
 
         # Save to output folder
-        output_filename = f"output_{random.randint(1000, 9999)}.png"
+        output_filename = file_name
         output_path = os.path.join(self.output_folder, output_filename)
         composite.save(output_path, format="PNG")
         return output_path, None

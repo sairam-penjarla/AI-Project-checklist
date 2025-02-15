@@ -5,191 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Project Submission</title>
         <link rel="stylesheet" href="/static/styles.css" />
-        <script>
-            // Enable submit button only if all required fields are filled
-            function enableSubmitButton() {
-                const requiredFields = document.querySelectorAll(".required");
-                const submitButton = document.getElementById("submit-button");
-                let allFilled = true;
-                requiredFields.forEach((field) => {
-                    if (!field.value.trim()) {
-                        allFilled = false;
-                    }
-                });
-                submitButton.disabled = !allFilled;
-            }
-            // Updated submitProject function
-            async function submitProject(event) {
-                event.preventDefault();
-
-                const formElement = document.getElementById("project-form");
-                const formData = new FormData(formElement);
-
-                try {
-                    // Add screenshot file names and descriptions to formData
-                    const screenshotCards = document.querySelectorAll("#screenshots-container .card");
-                    screenshotCards.forEach((card, index) => {
-                        const fileName = card.getAttribute("data-file-name"); // Get the stored original file name
-                        const descriptionTextarea = card.querySelector("textarea[name='screenshot_desc']");
-
-                        if (fileName) {
-                            formData.append(`screenshot_file_${index + 1}`, fileName); // Original file name
-                        }
-                        if (descriptionTextarea) {
-                            formData.append(`screenshot_desc_${index + 1}`, descriptionTextarea.value); // Description
-                        }
-                    });
-
-                    // Add architecture file names and descriptions to formData
-                    const architectureCards = document.querySelectorAll("#architecture-container .card");
-                    architectureCards.forEach((card, index) => {
-                        const fileName = card.getAttribute("data-file-name"); // Get the stored original file name
-                        const descriptionTextarea = card.querySelector("textarea[name='architecture_desc']");
-            
-                        if (fileName) {
-                            formData.append(`architecture_file_${index + 1}`, fileName); // Original file name
-                        }
-                        if (descriptionTextarea) {
-                            formData.append(`architecture_desc_${index + 1}`, descriptionTextarea.value); // Description
-                        }
-                    });
-
-                    // Submit the form data via fetch
-                    const response = await fetch("/submit-project", {
-                        method: "POST",
-                        body: formData,
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        // Populate generated output fields
-                        document.getElementById("youtube-script-output").textContent = data.result.youtube_script_prompt || "";
-                        document.getElementById("youtube-description-output").textContent = data.result.youtube_description_prompt || "";
-                        document.getElementById("readme-output").textContent = data.result.readme_file_prompt || "";
-                        document.getElementById("overview-output").textContent = data.result.overview_prompt || "";
-                        document.getElementById("demo-output").textContent = data.result.demo_prompt || "";
-                        document.getElementById("architecture-output").textContent = data.result.architecture_prompt || "";
-                    } else {
-                        alert(`Error: ${data.error}`);
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert("An error occurred while submitting the project.");
-                }
-            }
-
-            function showImagePreview(imgElement) {
-                const modal = document.getElementById("image-modal");
-                const modalImage = document.getElementById("modal-image");
-
-                // Set the modal image source to the clicked image
-                modalImage.src = imgElement.src;
-
-                // Show the modal
-                modal.style.display = "block";
-            }
-
-            function closeImagePreview(event) {
-                const modal = document.getElementById("image-modal");
-
-                // Close the modal only if the clicked area is outside the image or the close button
-                if (event.target === modal || event.target.classList.contains("image-close-btn")) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
-        <script>
-            // Add a new screenshot card dynamically for each file uploaded
-            function addScreenshotCard(file, imageUrl) {
-                const container = document.getElementById("screenshots-container");
-                const card = document.createElement("div");
-                card.classList.add("card");
-                card.setAttribute("data-file-name", file.name); // Store the original file name in a data attribute
-                card.innerHTML = `
-                    <div class="card-left">
-                        <div class="image-preview">
-                            <img src="${imageUrl}" alt="Uploaded Screenshot" onclick="showImagePreview(this)" />
-                        </div>
-                    </div>
-                    <div class="card-right">
-                        <textarea name="screenshot_desc" rows="3" placeholder="Describe the screenshot"></textarea>
-                    </div>
-                `;
-                container.appendChild(card);
-            }
-
-            // Handle multiple file uploads
-            function handleFileUploads(event) {
-                const files = event.target.files;
-                Array.from(files).forEach((file) => {
-                    const formData = new FormData();
-                    formData.append("screenshot", file);
-
-                    // Send the screenshot to the server to generate a thumbnail
-                    fetch("/generate_thumbnail", {
-                        method: "POST",
-                        body: formData,
-                    })
-                        .then((response) => response.blob())
-                        .then((blob) => {
-                            const imageUrl = URL.createObjectURL(blob);
-                            addScreenshotCard(file, imageUrl); // Pass the original file name to the addScreenshotCard function
-                        })
-                        .catch((error) => alert("Error generating thumbnail: " + error));
-                });
-            }
-        </script>
-        <script>
-            // Add a new architecture diagram uploader section
-            function addArchitectureUploader() {
-                const container = document.getElementById("architecture-container");
-                const uploader = document.createElement("div");
-                uploader.classList.add("card");
-                uploader.setAttribute("data-file-name", ""); // Placeholder for original file name
-                uploader.innerHTML = `
-                    <div class="card-left">
-                        <div class="image-preview" style="display: none;">
-                            <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
-                        </div>
-                        <div class="upload-button">
-                            <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUploadArchitecture(event)">
-                        </div>
-                    </div>
-                    <div class="card-right">
-                        <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
-                    </div>
-                `;
-                container.appendChild(uploader);
-            }
-            
-            // Handle file upload for architecture images
-            function handleFileUploadArchitecture(event) {
-                const input = event.target;
-                const file = input.files[0];
-                const card = input.closest(".card");
-                const previewContainer = card.querySelector(".image-preview");
-                const formData = new FormData();
-                formData.append("screenshot", file);
-            
-                // Store the original file name in the data attribute
-                card.setAttribute("data-file-name", file.name);
-            
-                // Send the architecture image to the server to generate a thumbnail
-                fetch("/generate_thumbnail_arch", {
-                    method: "POST",
-                    body: formData,
-                })
-                    .then((response) => response.blob())
-                    .then((blob) => {
-                        const imageUrl = URL.createObjectURL(blob);
-                        previewContainer.querySelector("img").src = imageUrl;
-                        previewContainer.style.display = "block";
-                    })
-                    .catch((error) => alert("Error generating thumbnail: " + error));
-            }
-            
-            </script>
     </head>
     <body oninput="enableSubmitButton()">
         <div class="left-container">
@@ -233,7 +48,6 @@
                 <h3>Screenshots</h3>
                 <div class="screenshots-container" id="screenshots-container">
                     <!-- Screenshot Cards -->
-                    <!-- Add more screenshots by uploading files -->
                     <div class="upload-button">
                         <input type="file" name="screenshots" accept="image/*" multiple onchange="handleFileUploads(event)" />
                     </div>
@@ -242,22 +56,21 @@
                 <!-- Architecture Diagram Section -->
                 <h3>Architecture Diagram</h3>
                 <div class="architecture-container" id="architecture-container">
-                    <!-- Architecture Cards -->
                     <div class="card" data-file-name="">
                         <div class="card-left">
-                            <div class="image-preview" style="display: none;">
+                            <div class="image-preview" style="display: none">
                                 <img src="" alt="Uploaded Architecture Diagram" onclick="showImagePreview(this)" />
                             </div>
+                            <button class="regenerate-button" onclick="regenerateImageThumbnail('', this)">🔄</button>
+                            <button class="download-button" onclick="downloadImage('')">⬇️</button>
                             <div class="upload-button">
-                                <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUploadArchitecture(event)">
+                                <input type="file" name="architecture_image" accept="image/*" onchange="handleFileUploadArchitecture(event)" />
                             </div>
                         </div>
                         <div class="card-right">
                             <textarea name="architecture_desc" rows="3" placeholder="Describe the architecture diagram"></textarea>
                         </div>
                     </div>
-                
-                    <!-- Add more architecture diagrams by clicking the plus icon -->
                     <button class="plus-icon" onclick="addArchitectureUploader()">+</button>
                 </div>
             </div>
@@ -277,34 +90,85 @@
             <div class="form-section">
                 <h2>Generated Outputs</h2>
                 <div class="output-group">
-                    <h3>YouTube Video Script</h3>
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-youtube-script" />
+                        <h3>YouTube Video Script</h3>
+                        <label for="checkbox-youtube-script"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('youtube-script-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('youtube-script-output')">Hide/Show</button>
+                    </div>
                     <div id="youtube-script-output" class="output-box"></div>
                 </div>
                 <div class="output-group">
-                    <h3>YouTube Video Description</h3>
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-youtube-description" />
+                        <h3>YouTube Video Description</h3>
+                        <label for="checkbox-youtube-description"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('youtube-description-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('youtube-description-output')">Hide/Show</button>
+                    </div>
+
                     <div id="youtube-description-output" class="output-box"></div>
                 </div>
                 <div class="output-group">
-                    <h3>README File</h3>
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-readme" />
+                        <h3>README File</h3>
+                        <label for="checkbox-readme"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('readme-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('readme-output')">Hide/Show</button>
+                    </div>
+
                     <div id="readme-output" class="output-box"></div>
                 </div>
+                <!--  -->
                 <div class="output-group">
-                    <h3>Overview</h3>
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-demo-video" />
+                        <h3>Demo Video</h3>
+                        <label for="checkbox-demo-video"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('demo-video-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('demo-video-output')">Hide/Show</button>
+                    </div>
+
+                    <div id="demo-video-output" class="output-box"></div>
+                </div>
+                <!--  -->
+                <div class="output-group">
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-overview" />
+                        <h3>Blog Part 1</h3>
+                        <label for="checkbox-overview"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('overview-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('overview-output')">Hide/Show</button>
+                    </div>
+
                     <div id="overview-output" class="output-box"></div>
                 </div>
                 <div class="output-group">
-                    <h3>Demo</h3>
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-demo" />
+                        <h3>Blog Part 2</h3>
+                        <label for="checkbox-demo"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('demo-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('demo-output')">Hide/Show</button>
+                    </div>
+
                     <div id="demo-output" class="output-box"></div>
                 </div>
                 <div class="output-group">
-                    <h3>Architecture Details</h3>
+                    <div class="section-header">
+                        <input type="checkbox" id="checkbox-architecture" />
+                        <h3>Architecture Details</h3>
+                        <label for="checkbox-architecture"></label>
+                        <button class="copy-btn" onclick="copyToClipboard('architecture-output', this)">Copy</button>
+                        <button class="toggle-btn" onclick="toggleVisibility('architecture-output')">Hide/Show</button>
+                    </div>
+
                     <div id="architecture-output" class="output-box"></div>
                 </div>
             </div>
         </div>
-
-        <div>
-            <div style="display: none; position: fixed; top: 30px; width: auto; max-width: 100%; text-align: center; left: 50%; transform: translateX(-50%); z-index: 99999999"><div style="display: inline-block; font-size: 14px; font-weight: bold; border: 1px solid rgb(240, 195, 109); background-color: rgb(249, 237, 190); padding: 0px 10px; border-radius: 2px; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px"></div></div>
-        </div>
+        <script src="/static/js/Scripts.Js"></script>
     </body>
 </html>
